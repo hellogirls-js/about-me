@@ -11,17 +11,23 @@ const mysql_1 = __importDefault(require("mysql"));
 const path = require("path");
 dotenv_1.default.config();
 const connection = mysql_1.default.createConnection({
-  host: "localhost",
+  host: process.env.IP_ADD,
+  port: "/var/run/mysqld/mysqld.sock",
   user: process.env.MYSQL_USER,
   password: process.env.MYSQL_PASSWORD,
   database: process.env.MYSQL_DB_NAME,
 });
-connection.connect();
+connection.connect(function (err) {
+  if (err) {
+    console.error(err);
+    throw err;
+  }
+});
 const app = (0, express_1.default)();
 const port = process.env.PORT;
 app.use(express_1.default.json());
-app.use(express_1.default.static("src"));
-app.use("/static", express_1.default.static("public"));
+app.use(express_1.default.static(path.join(__dirname, "/src")));
+app.use("/static", express_1.default.static(path.join(__dirname, "/public")));
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "/src/views/index.html"));
 });

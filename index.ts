@@ -24,8 +24,8 @@ const app: Express = express();
 const port = process.env.PORT;
 
 app.use(express.json());
-app.use(express.static("src"));
-app.use("/static", express.static("public"));
+app.use(express.static(path.join(__dirname, "/src")));
+app.use("/static", express.static(path.join(__dirname, "/public")));
 
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "/src/views/index.html"));
