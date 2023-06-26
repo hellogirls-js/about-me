@@ -12,7 +12,12 @@ const connection = mysql.createConnection({
   database: process.env.MYSQL_DB_NAME
 });
 
-connection.connect();
+connection.connect(function (err) {
+  if (err) {
+    console.error(err);
+    throw err;
+  }
+});
 
 const app: Express = express();
 const port = process.env.PORT;
