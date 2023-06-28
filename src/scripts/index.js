@@ -1,8 +1,8 @@
 console.log("if you're reading this. hi");
 
-const WINDOW_POSITION = { x: 300, y: 30 };
+const WINDOW_POSITION = { x: 10, y: 3 };
 let WINDOW_ID = 0;
-const WINDOW_OFFSET = 10;
+const WINDOW_OFFSET = 2;
 let Z_INDEX = 3;
 
 function getIdClass(el) {
@@ -175,13 +175,13 @@ $(".dashboard-start-item").click(function () {
   const id = $(this).attr("id").split("-")[1];
   if (id === "sticky_note") {
     createStickyNote("new sticky", "", {
-      x: WINDOW_POSITION.x + WINDOW_OFFSET * WINDOW_ID,
-      y: WINDOW_POSITION.y + WINDOW_OFFSET * WINDOW_ID,
+      x: `${WINDOW_POSITION.x + WINDOW_OFFSET * WINDOW_ID}%`,
+      y: `${WINDOW_POSITION.y + WINDOW_OFFSET * WINDOW_ID}%`,
     });
   } else {
     createWindow(id, {
-      x: WINDOW_POSITION.x + WINDOW_OFFSET * WINDOW_ID,
-      y: WINDOW_POSITION.y + WINDOW_OFFSET * WINDOW_ID,
+      x: `${WINDOW_POSITION.x + WINDOW_OFFSET * WINDOW_ID}%`,
+      y: `${WINDOW_POSITION.y + WINDOW_OFFSET * WINDOW_ID}%`,
     });
   }
   toggleStartMenu();
@@ -192,13 +192,13 @@ $(document).ready(function () {
     "welcome!!!",
     "hi! welcome to my about page. to navigate this site, click on the start menu. have a nice day!",
     {
-      x: WINDOW_POSITION.x + WINDOW_OFFSET * WINDOW_ID,
-      y: WINDOW_POSITION.y + WINDOW_OFFSET * WINDOW_ID,
+      x: `${WINDOW_POSITION.x + WINDOW_OFFSET * WINDOW_ID}%`,
+      y: `${WINDOW_POSITION.y + WINDOW_OFFSET * WINDOW_ID}%`,
     }
   );
 
   createWindow("chat_box", {
-    x: 850,
-    y: 60,
+    x: "67%",
+    y: "8%",
   });
 });
