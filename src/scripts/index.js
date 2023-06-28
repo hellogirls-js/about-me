@@ -1,15 +1,25 @@
-document.onload = function() {
-    async function getPartial(type) {
-        const partial = await axios.get(`/partial/${id}`);
-        return partial.data;
-    }
+async function getPartial(type) {
+    const partial = await axios.get(`/partial/${type}`);
+    return partial.data;
+}
 
+function getDeviceLayout() {
     const aspectRatio = window.innerWidth / window.innerHeight;
     if (aspectRatio >= 1) {
         getPartial("desktop").then(function(partial) {
             $("#container").html(partial);
         }).error(error => console.error(error));
     } else {
-        $("#container").html("mobile");
+        getPartial("mobile").then(function(partial) {
+            $("#container").html(partial);
+        }).error(error => console.error(error));
     }
-};
+}
+
+$(document).ready(function() {
+    getDeviceLayout();
+});
+
+$(window).resize(function() {
+    getDeviceLayout();
+});
