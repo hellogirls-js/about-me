@@ -20,7 +20,7 @@ function toggleStartMenu() {
 }
 
 async function getWindowPartial(id) {
-  const partial = await axios.get(`/partial/${id}`);
+  const partial = await axios.get(`/partial/desktop/${id}`);
   return partial.data;
 }
 
@@ -92,6 +92,11 @@ function createWindow(type, position) {
         $(`.dashboard-item-container.${idClass}`).removeClass("active");
         $(clone).hide();
       });
+
+      // $(".window-maximize", clone).click(function () {
+      //   moveToTop(clone);
+      //   clone.css({ left: 0, top: 0, width: "100%", height: "100%" });
+      // });
 
       $(".window-close", clone).click(function () {
         const idClass = getIdClass(clone);

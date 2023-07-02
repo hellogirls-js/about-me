@@ -5,20 +5,51 @@
 }
 
 #app-grid {
+    height: 80%;
+    width: 96%;
+    margin: auto;
+    padding: 2%;
     display: grid;
-    gap: 1%;
-    grid-template: 25vw / 25vw 25vw 25vw 25vw;
+    gap: 4%;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(6, 1fr);
 }
 
-.app-item {
-    background: red;
-}
-
-.app-icon {
-    border-radius: 5%;
-}
-
-.app-widget {
+.app-widget-small {
     grid-column-end: span 2;
     grid-row-end: span 2;
+}
+
+.app-widget-large {
+    grid-column-end: span 4;
+    grid-row-end: span 2;
+}
+
+.app-icon-inner {
+    width: 90%;
+    height: 90%;
+    margin: auto;
+    background: red;
+    border-radius: 20%;
+}
+
+.app-content-inner {
+    width: 98%;
+    height: 98%;
+}
+
+.app-label {
+    width: 100%;
+    margin-top: 5%;
+    text-align: center;
+    font-size: 0.8rem;
+}
+
+#app-shortcuts {
+    margin: auto;
+    width: 100%;
+    height: 18%;
+    margin-top: 2%;
+    background-color: red;
+    border-radius: 20px;
 }
