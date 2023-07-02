@@ -2,54 +2,138 @@
 <script defer src="/scripts/mobile.js"></script>
 <main id="app-screen">
     <div id="app-grid">
-        <div class="app-item app-icon">
+        <div class="app-item app-icon" id="about">
             <div class="app-icon-inner">
-
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user-heart" width="48" height="48" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                    <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0"></path>
+                    <path d="M6 21v-2a4 4 0 0 1 4 -4h.5"></path>
+                    <path d="M18 22l3.35 -3.284a2.143 2.143 0 0 0 .005 -3.071a2.242 2.242 0 0 0 -3.129 -.006l-.224 .22l-.223 -.22a2.242 2.242 0 0 0 -3.128 -.006a2.143 2.143 0 0 0 -.006 3.071l3.355 3.296z"></path>
+                 </svg>
             </div>
             <div class="app-label">
                 about
             </div>
         </div>
-        <div class="app-item app-icon">
+        <div class="app-item app-icon" id="projects">
             <div class="app-icon-inner">
-
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-folder-heart" width="48" height="48" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                    <path d="M10.5 19h-5.5a2 2 0 0 1 -2 -2v-11a2 2 0 0 1 2 -2h4l3 3h7a2 2 0 0 1 2 2v2"></path>
+                    <path d="M18 22l3.35 -3.284a2.143 2.143 0 0 0 .005 -3.071a2.242 2.242 0 0 0 -3.129 -.006l-.224 .22l-.223 -.22a2.242 2.242 0 0 0 -3.128 -.006a2.143 2.143 0 0 0 -.006 3.071l3.355 3.296z"></path>
+                 </svg>
+            </div>
+            <div class="app-label">
+                projects
+            </div>
+        </div>
+        <div class="app-item app-widget app-widget-small" id="widget-niki-1">
+            <div class="app-content-inner">
+            </div>
+            <div class="app-label">:3</div>
+        </div>
+        <div class="app-item app-icon" id="chat">
+            <div class="app-icon-inner">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-message-2" width="48" height="48" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                    <path d="M8 9h8"></path>
+                    <path d="M8 13h6"></path>
+                    <path d="M9 18h-3a3 3 0 0 1 -3 -3v-8a3 3 0 0 1 3 -3h12a3 3 0 0 1 3 3v8a3 3 0 0 1 -3 3h-3l-3 3l-3 -3z"></path>
+                 </svg>
             </div>
             <div class="app-label">
                 chat
             </div>
         </div>
-        <div class="app-item app-widget app-widget-small" id="widget-clock">
-        </div>
-        <div class="app-item app-icon">
+        <div class="app-item app-icon" id="notes">
             <div class="app-icon-inner">
-
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-music" width="48" height="48" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                    <path d="M6 17m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"></path>
+                    <path d="M16 17m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"></path>
+                    <path d="M9 17l0 -13l10 0l0 13"></path>
+                    <path d="M9 8l10 0"></path>
+                 </svg>
             </div>
             <div class="app-label">
                 music
             </div>
         </div>
-        <div class="app-item app-icon">
-            <div class="app-icon-inner">
-
-            </div>
-            <div class="app-label">
-                notes
-            </div>
-        </div>
-        <div class="app-item app-widget app-widget-large">
+        <div class="app-item app-widget app-widget-large" id="widget-clock">
             <div class="app-content-inner">
-
+                <div id="homescreen-time">
+                
+                </div>
+                <div id="homescreen-date">
+                    <div id="homescreen-day"></div>
+                    <div id="homescreen-monthday"></div>
+                </div>
             </div>
             <div class="app-label">
                 clock
             </div>
         </div>
-        <div class="app-item app-widget app-widget-small"></div>
-        <div class="app-item app-icon"></div>
-        <div class="app-item app-icon"></div>
-        <div class="app-item app-icon"></div>
-        <div class="app-item app-icon"></div>
+        <div class="app-item app-widget app-widget-small" id="widget-niki-2">
+            <div class="app-content-inner">
+            </div>
+            <div class="app-label">meow</div>
+        </div>
+        <div class="app-item app-widget app-widget-small" id="widget-todo">
+            <div class="app-content-inner">
+                <div id="todo-header">
+                    <div id="todo-header-left">
+                      <div id="todo-heart-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-heart-filled" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                            <path d="M6.979 3.074a6 6 0 0 1 4.988 1.425l.037 .033l.034 -.03a6 6 0 0 1 4.733 -1.44l.246 .036a6 6 0 0 1 3.364 10.008l-.18 .185l-.048 .041l-7.45 7.379a1 1 0 0 1 -1.313 .082l-.094 -.082l-7.493 -7.422a6 6 0 0 1 3.176 -10.215z" stroke-width="0" fill="currentColor"></path>
+                        </svg>
+                        </div>
+                        <div id="todo-title">to-do list</div>  
+                    </div>
+                    <div id="todo-header-right">
+                        <div id="todo-count"></div>
+                    </div>
+                </div>
+                
+                <div id="todo-list">
+                    <div class="todo-list-item">
+                        implement music player
+                    </div>
+                    <div class="todo-list-item">
+                        flesh out start menu
+                    </div>
+                </div>
+            </div>
+            <div class="app-label">to-do</div>
+        </div>
     </div>
-    <div id="app-shortcuts">
+    <div id="app-shortcuts-container">
+        <div id="app-shortcuts">
+            <div id="app-shortcut-grid">
+                <a href="https://twitter.com/hellogirls_DEV" target="_blank">
+                    <div class="app-shortcut-icon" id="twitter">
+                        <i class="fa-brands fa-twitter fa-2xl" style="color: #ffffff;"></i>
+                    </div>
+                </a>
+
+                <a href="https://hellogirls-dev.tumblr.com" target="_blank">
+                   <div class="app-shortcut-icon" id="tumblr">
+                        <i class="fa-brands fa-tumblr" style="color: #ffffff;"></i>
+                    </div> 
+                </a>
+                
+                <a href="https://retrospring.net/@hellogirls" target="_blank">
+                    <div class="app-shortcut-icon" id="retrospring">
+                        <i class="fa-solid fa-comments" style="color: #ffffff;"></i>
+                    </div>
+                </a>
+                
+                <a href="https://www.buymeacoffee.com/hellogirls" target="_blank">
+                    <div class="app-shortcut-icon" id="coffee">
+                        <i class="fa-solid fa-mug-saucer" style="color: #ffffff;"></i>
+                    </div> 
+                </a>
+            </div>  
+        </div>
     </div>
 </main>

@@ -1,18 +1,29 @@
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+
+a:link, a:visited {
+    text-decoration: none;
+    color: inherit;
+}
+
 #app-screen {
     width: 100%;
     height: 100%;
-    padding: 2%;
+    background-image: url("/static/images/cowboy_wallpaper.png");
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
 }
 
 #app-grid {
     height: 80%;
-    width: 96%;
+    width: 100%;
     margin: auto;
-    padding: 2%;
+    padding: 4%;
     display: grid;
-    gap: 4%;
+    gap: 6vw;
     grid-template-columns: repeat(4, 1fr);
     grid-template-rows: repeat(6, 1fr);
+    /* backdrop-filter: blur(1px); */
 }
 
 .app-widget-small {
@@ -25,31 +36,213 @@
     grid-row-end: span 2;
 }
 
+.app-content-inner, .app-icon-inner {
+    margin: auto;
+    box-shadow: 0px 0px 20px #00000022;
+}
+
 .app-icon-inner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     width: 90%;
     height: 90%;
-    margin: auto;
+    overflow: clip;
     background: red;
+    color: #fff;
     border-radius: 20%;
 }
 
 .app-content-inner {
     width: 98%;
     height: 98%;
+    border-radius: 5vw;
 }
 
 .app-label {
     width: 100%;
-    margin-top: 5%;
     text-align: center;
     font-size: 0.8rem;
+    color: #fff;
+    text-shadow: 0px 0px 15px #000000;
+    font-weight: 600;
+}
+
+.app-icon-inner .app-label {
+    margin-top: 5%;
+}
+
+#about .app-icon-inner {
+    background-image: linear-gradient(#51a2ff, #46bbff);
+}
+
+#projects .app-icon-inner {
+    background-image: linear-gradient(#ff3593, #ff5c92);
+}
+
+#chat .app-icon-inner {
+    background-image: linear-gradient(#ff3550, #ff5c5c);
+}
+
+#notes .app-icon-inner {
+    background-image: linear-gradient(#ffae35, #ffcb5c);
+}
+
+#widget-clock .app-content-inner {
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    padding: 3%;
+    background-image: linear-gradient(#fff, #fff8fa);
+    overflow: clip;
+}
+
+#widget-clock #homescreen-time {
+    position: absolute;
+    right: 0;
+    top: -5%;
+    bottom: 50%;
+    font-size: 7rem;
+    font-weight: 900;
+    user-select: none;
+    color: #ffd2e0;
+}
+
+#widget-clock #homescreen-date {
+    z-index: 2;
+    color: #da6692;
+}
+
+#widget-clock #homescreen-day {
+    font-size: 2.5rem;
+    font-family: 'Pacifico', cursive;
+    margin-bottom: -10%;
+}
+
+#widget-clock #homescreen-monthday {
+    font-size: 1.5rem;
+    text-transform: uppercase;
+}
+
+#widget-niki-1 .app-content-inner {
+    background-image: url("/static/images/panda_san.png");
+    background-position: center 10%;
+    background-size: 780px 360px;
+    background-repeat: no-repeat;
+}
+
+#widget-niki-2 .app-content-inner {
+    background-image: url("/static/images/hungry_niki.png");
+    background-position: center 10%;
+    background-size: 780px 360px;
+    background-repeat: no-repeat;
+}
+
+#widget-todo .app-content-inner {
+    padding: 6%;
+    overflow: clip;
+    background: #222222;
+    color: #fff;
+}
+
+#widget-todo #todo-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#widget-todo #todo-heart-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    padding: 5px;
+    background-color: #ff5898;
+    border-radius: 50%;
+}
+
+#widget-todo #todo-title {
+    margin-top: 2%;
+    color: #ff5898;
+    font-weight: 600;
+}
+
+#widget-todo #todo-count {
+    font-size: 1.8rem;
+    font-weight: 800;
+    margin-right: 2%;
+}
+
+#widget-todo .todo-list-item {
+    line-clamp: 1;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    font-size: 0.9rem;
+    padding: 3% 1%;
+    border-bottom: 1px solid #333;
+}
+
+#app-shortcuts-container {
+    margin: auto;
+    width: 100%;
+    height: 20%;
 }
 
 #app-shortcuts {
+    display: flex;
+    align-items: center;
+    width: 98%;
+    height: 80%;
     margin: auto;
+    margin-top: 5%;
+    background-color: #24031e55;
+    backdrop-filter: blur(6px);
+    border-radius: 5vw;
+}
+
+#app-shortcut-grid {
+    width: 95%;
+    height: 85%;
+    margin: auto;
+    padding: 3%;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(1, 1fr);
+    gap: 5%;
+}
+
+#app-shortcut-grid a {
     width: 100%;
-    height: 18%;
-    margin-top: 2%;
-    background-color: red;
-    border-radius: 20px;
+    height: 100%;
+}
+
+.app-shortcut-icon {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10%;
+}
+
+.app-shortcut-icon i {
+    font-size: 3rem;
+}
+
+.app-shortcut-icon#twitter {
+    background-image: linear-gradient(#2a9fff, #42b3ff);
+}
+
+.app-shortcut-icon#tumblr {
+    background-image: linear-gradient(#243966, #294074);
+}
+
+.app-shortcut-icon#retrospring {
+    background-image: linear-gradient(#9008ff, #9718ff);
+}
+
+.app-shortcut-icon#coffee {
+    background-image: linear-gradient(#ffb71d, #ffd519);
 }
