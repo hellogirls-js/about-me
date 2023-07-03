@@ -22,10 +22,19 @@ function createWindow(type) {
   });
 }
 
+function updateVh() {
+  let vh = window.innerHeight * 0.01;
+  $(document.documentElement).css("--vh", `${vh}px`);
+}
+
+$(window).resize(_.debounce(updateVh, 100));
+
 $(".app-icon").click(function (e) {
   e.preventDefault();
   createWindow($(this).attr("id"));
 });
+
+updateVh();
 
 $("#homescreen-time").text(dayjs().format("h:mm"));
 $("#homescreen-day").text(dayjs().format("dddd"));
