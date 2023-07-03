@@ -1,6 +1,19 @@
 <link rel="stylesheet" href="/styles/mobile.css" />
 <script defer src="/scripts/mobile.js"></script>
 <main id="app-screen">
+    <template id="app-window-template">
+        <div class="app-window">
+            <div class="app-window-header">
+                <div class="app-window-back">
+                    <i class="ti ti-chevron-left"></i>
+                </div>
+                <div class="app-window-title"></div>
+            </div>
+            <div class="app-window-content">
+
+            </div>
+        </div>
+    </template>
     <div id="app-grid">
         <div class="app-item app-icon" id="about">
             <div class="app-icon-inner">
@@ -32,7 +45,7 @@
             </div>
             <div class="app-label">:3</div>
         </div>
-        <div class="app-item app-icon" id="chat">
+        <div class="app-item app-icon" id="chat_box">
             <div class="app-icon-inner">
                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-message-2" width="48" height="48" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                     <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
@@ -45,7 +58,7 @@
                 chat
             </div>
         </div>
-        <div class="app-item app-icon" id="notes">
+        <div class="app-item app-icon" id="music">
             <div class="app-icon-inner">
                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-music" width="48" height="48" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                     <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
