@@ -1,6 +1,7 @@
 import express, { Express } from "express";
 import dotenv from "dotenv";
 import mysql from "mysql";
+import * as fs from "node:fs";
 import path = require("path");
 
 dotenv.config();
@@ -65,4 +66,15 @@ app.get("/chat/retrieve", (req, res) => {
     if (err) throw err;
     res.send(result);
   });
+});
+
+app.get("/music/retrieve", (req, res) => {
+  const MUSIC_PATH = "/public/music";
+  const musicFiles = fs.readdirSync(path.join(__dirname, MUSIC_PATH));
+  if (musicFiles) {
+    res.send(musicFiles);
+  } else {
+    console.error("could not retrieve music files");
+    throw new Error("Could not retrieve music files");
+  }
 });
