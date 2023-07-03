@@ -22,15 +22,18 @@ connection.connect(function (err) {
     }
 });
 const app = (0, express_1.default)();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3001;
 app.use(express_1.default.json());
 app.use(express_1.default.static(path.join(__dirname, "/src")));
 app.use("/static", express_1.default.static(path.join(__dirname, "/public")));
 app.get("/", (req, res) => {
     res.sendFile(path.join(__dirname, "/src/views/index.html"));
 });
-app.get("/partial/:id", (req, res) => {
-    res.sendFile(path.join(__dirname, `/src/views/partials/${req.params.id}.html`));
+app.get("/partial/:mode", (req, res) => {
+    res.sendFile(path.join(__dirname, `/src/views/partials/${req.params.mode}/index.html`));
+});
+app.get("/partial/:mode/:id", (req, res) => {
+    res.sendFile(path.join(__dirname, `/src/views/partials/${req.params.mode}/${req.params.id}.html`));
 });
 app.listen(port, () => {
     console.log(`listening on port ${port}`);
