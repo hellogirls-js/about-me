@@ -280,6 +280,7 @@ a:link, a:visited {
 .app-window-header .app-window-title {
     width: 100%;
     text-align: center;
+    user-select: none;
 }
 
 .app-window-content {

@@ -27,6 +27,12 @@ function updateVh() {
   $(document.documentElement).css("--vh", `${vh}px`);
 }
 
+function setTime() {
+  $("#homescreen-time").text(dayjs().format("h:mm"));
+  $("#homescreen-day").text(dayjs().format("dddd"));
+  $("#homescreen-monthday").text(dayjs().format("MMMM D"));
+}
+
 $(window).resize(_.debounce(updateVh, 100));
 
 $(".app-icon").click(function (e) {
@@ -35,9 +41,10 @@ $(".app-icon").click(function (e) {
 });
 
 updateVh();
+setTime();
 
-$("#homescreen-time").text(dayjs().format("h:mm"));
-$("#homescreen-day").text(dayjs().format("dddd"));
-$("#homescreen-monthday").text(dayjs().format("MMMM D"));
+setInterval(() => {
+  setTime();
+}, 500);
 
 $("#todo-count").text($("#todo-list").children.length);

@@ -156,6 +156,11 @@ function createDashboardItem(text) {
   });
 }
 
+function setTime() {
+  $("#dashboard-time").text(dayjs().format("hh:mmA"));
+  $("#dashboard-date").text(dayjs().format("MM/DD/YYYY"));
+}
+
 $("#dashboard-start-menu").hide();
 $("#dashboard-start-button").click(function () {
   toggleStartMenu();
@@ -165,8 +170,10 @@ $("#desktop").click(function () {
   $("#dashboard-start-menu").hide();
 });
 
-$("#dashboard-time").text(dayjs().format("hh:mmA"));
-$("#dashboard-date").text(dayjs().format("MM/DD/YYYY"));
+setTime();
+setInterval(() => {
+  setTime();
+}, 500);
 
 $(".dashboard-start-tooltip-container").mouseenter(function () {
   $(this).children(".dashboard-start-tooltip").show();
