@@ -3,8 +3,6 @@ PLAYER_STATE = document.getElementById("music-player-audio").paused
   : "play";
 PLAY_BUTTON_CLASS = "ti-player-play-filled";
 PAUSE_BUTTON_CLASS = "ti-player-pause-filled";
-TRACK_LIST = [];
-TRACK_LIST_INDEX = undefined;
 
 // visualizer code
 ctx = document.getElementsByClassName("visualizer-canvas")[0].getContext("2d");
@@ -85,10 +83,10 @@ function calcTime(sec) {
 function togglePlayButton() {
   if (PLAYER_STATE === "pause" && $("#music-player-audio").attr("src") === "") {
     // if there is no music playing, play the first track automatically
-    TRACK_LIST_INDEX = 0;
+    setTrackListIndex(0);
     $("#music-player-audio").attr(
       "src",
-      `/static/music/${TRACK_LIST[TRACK_LIST_INDEX]}`
+      `/static/music/${MUSIC_TRACK_LIST[TRACK_LIST_INDEX]}`
     );
     $(".track-list-container")
       .find("div")
@@ -135,7 +133,7 @@ function createMusicTrack(file) {
         .addClass(PAUSE_BUTTON_CLASS);
       PLAYER_STATE = "play";
     }
-    TRACK_LIST_INDEX = TRACK_LIST.findIndex((track) => track === file);
+    setTrackListIndex(MUSIC_TRACK_LIST.findIndex((track) => track === file));
     $(".track-list-container")
       .find("div")
       .eq(TRACK_LIST_INDEX)
@@ -148,6 +146,8 @@ $("#play-pause-button-icon").addClass(
   PLAYER_STATE === "pause" ? PLAY_BUTTON_CLASS : PAUSE_BUTTON_CLASS
 );
 
+MUSIC_TRACK_LIST.forEach((file) => createMusicTrack(file));
+
 $(".music-player-play").click(function (e) {
   togglePlayButton();
 });
@@ -157,11 +157,11 @@ $(".music-player-rewind").click(function (e) {
     .find("div")
     .eq(TRACK_LIST_INDEX)
     .removeClass("active");
-  if (TRACK_LIST_INDEX > 0) TRACK_LIST_INDEX--;
-  else TRACK_LIST_INDEX = TRACK_LIST.length - 1;
+  if (TRACK_LIST_INDEX > 0) setTrackListIndex(TRACK_LIST_INDEX--);
+  else TRACK_LIST_INDEX = MUSIC_TRACK_LIST.length - 1;
   $("#music-player-audio").attr(
     "src",
-    `/static/music/${TRACK_LIST[TRACK_LIST_INDEX]}`
+    `/static/music/${MUSIC_TRACK_LIST[TRACK_LIST_INDEX]}`
   );
   $("#music-player-audio")[0].currentTime = 0;
   $(".track-list-container")
@@ -176,11 +176,12 @@ $(".music-player-forward").click(function (e) {
     .find("div")
     .eq(TRACK_LIST_INDEX)
     .removeClass("active");
-  if (TRACK_LIST_INDEX < TRACK_LIST.length - 1) TRACK_LIST_INDEX++;
+  if (TRACK_LIST_INDEX < MUSIC_TRACK_LIST.length - 1)
+    setTrackListIndex(TRACK_LIST_INDEX++);
   else TRACK_LIST_INDEX = 0;
   $("#music-player-audio").attr(
     "src",
-    `/static/music/${TRACK_LIST[TRACK_LIST_INDEX]}`
+    `/static/music/${MUSIC_TRACK_LIST[TRACK_LIST_INDEX]}`
   );
   $("#music-player-audio")[0].currentTime = 0;
   $(".track-list-container")
@@ -210,34 +211,19 @@ $("#music-player-audio").on("ended", function () {
     .find("div")
     .eq(TRACK_LIST_INDEX)
     .removeClass("active");
-  if (TRACK_LIST_INDEX < TRACK_LIST.length - 1) TRACK_LIST_INDEX++;
-  else TRACK_LIST_INDEX = 0;
-  $("#music-player-audio").attr(
-    "src",
-    `/static/music/${TRACK_LIST[TRACK_LIST_INDEX]}`
-  );
-  $("#music-player-audio")[0].currentTime = 0;
-  $(".track-list-container")
-    .find("div")
-    .eq(TRACK_LIST_INDEX)
-    .addClass("active");
-  $("#music-player-audio")[0].play();
 });
 
 $(document).ready(function () {
-  axios.get("/music/retrieve").then(function (res) {
-    TRACK_LIST = res.data;
-    res.data.forEach((file) => createMusicTrack(file));
-
-    TRACK_LIST_INDEX = TRACK_LIST.findIndex((track) => {
+  setTrackListIndex(
+    MUSIC_TRACK_LIST.findIndex((track) => {
       return $("#music-player-audio").attr("src").includes(track);
-    });
-    if (TRACK_LIST_INDEX >= 0)
-      $(".track-list-container")
-        .find("div")
-        .eq(TRACK_LIST_INDEX)
-        .addClass("active");
-  });
+    })
+  );
+  if (TRACK_LIST_INDEX >= 0)
+    $(".track-list-container")
+      .find("div")
+      .eq(TRACK_LIST_INDEX)
+      .addClass("active");
 });
 
 if ($("#music-player-audio").prop("readyState") > 0) {
