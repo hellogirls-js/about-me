@@ -153,11 +153,12 @@ $(".music-player-play").click(function (e) {
 });
 
 $(".music-player-rewind").click(function (e) {
+  let currIndex = TRACK_LIST_INDEX;
   $(".track-list-container")
     .find("div")
     .eq(TRACK_LIST_INDEX)
     .removeClass("active");
-  if (TRACK_LIST_INDEX > 0) setTrackListIndex(TRACK_LIST_INDEX--);
+  if (TRACK_LIST_INDEX > 0) setTrackListIndex(currIndex - 1);
   else TRACK_LIST_INDEX = MUSIC_TRACK_LIST.length - 1;
   $("#music-player-audio").attr(
     "src",
@@ -172,12 +173,13 @@ $(".music-player-rewind").click(function (e) {
 });
 
 $(".music-player-forward").click(function (e) {
+  let currIndex = TRACK_LIST_INDEX;
   $(".track-list-container")
     .find("div")
     .eq(TRACK_LIST_INDEX)
     .removeClass("active");
   if (TRACK_LIST_INDEX < MUSIC_TRACK_LIST.length - 1)
-    setTrackListIndex(TRACK_LIST_INDEX++);
+    setTrackListIndex(currIndex + 1);
   else TRACK_LIST_INDEX = 0;
   $("#music-player-audio").attr(
     "src",

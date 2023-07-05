@@ -72,27 +72,6 @@ i {
   border-radius: 10px;
 }
 
-.music-player-seeker-range::-webkit-slider-thumb {
-  --webkit-appearance: none;
-  appearance: none;
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  background-image: linear-gradient(#fff, #fff9fe);
-  box-shadow: 0 0 2px #00000066;
-}
-
-.music-player-seeker-range::-moz-range-thumb {
-  border: none;
-  --webkit-appearance: none;
-  appearance: none;
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  background-image: linear-gradient(#fff, #fff9fe);
-  box-shadow: 0 0 2px #00000066;
-}
-
 .music-player-seeker-range:focus {
   outline: none;
 }
