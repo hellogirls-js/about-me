@@ -1,14 +1,15 @@
 <link rel="stylesheet" href="/styles/music_player_mobile.css" />
 <div class="music-player">
-  <div class="visualizer"></div>
+  <div class="visualizer">
+    <canvas class="visualizer-canvas"></canvas>
+  </div>
   <div class="music-player-controls">
-    <audio id="music-player-audio" src=""></audio>
     <div class="music-player-top-controls">
       <div class="music-player-seeker">
         <input type="range" class="music-player-seeker-range" max="100" value="0"/>
         <div class="music-player-seeker-time">
           <div class="music-player-seeker-current-time">0:00</div>
-          <div class="music-player-seeker-time-left">0:00</div>
+          <div class="music-player-seeker-duration">0:00</div>
         </div>
       </div>
     </div>
@@ -20,9 +21,11 @@
   </div>
   <div class="track-list">
     <div class="track-list-title">track list</div>
-    <template id="music-track-template">
-      <div class="music-track"></div>
-    </template>
+    <div class="track-list-container">
+      <template id="music-track-template">
+        <div class="music-track"></div>
+      </template>
+    </div>
   </div>
 </div>
 <script src="/scripts/music.js"></script>

@@ -1,9 +1,108 @@
-let PLAYER_STATE = "pause";
-const PLAY_BUTTON_CLASS = "ti-player-play-filled";
-const PAUSE_BUTTON_CLASS = "ti-player-pause-filled";
+PLAYER_STATE = document.getElementById("music-player-audio").paused
+  ? "pause"
+  : "play";
+PLAY_BUTTON_CLASS = "ti-player-play-filled";
+PAUSE_BUTTON_CLASS = "ti-player-pause-filled";
+TRACK_LIST = [];
+TRACK_LIST_INDEX = undefined;
+
+// visualizer code
+ctx = document.getElementsByClassName("visualizer-canvas")[0].getContext("2d");
+CANVAS_WIDTH = $(".visualizer-canvas").width();
+CANVAS_HEIGHT = $(".visualizer-canvas").height();
+audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+audioSrc = audioCtx.createMediaElementSource(
+  document.getElementById("music-player-audio")
+);
+analyzer = audioCtx.createAnalyser();
+audioSrc.connect(analyzer);
+analyzer.connect(audioCtx.destination);
+
+analyzer.fftSize = 32;
+bufferLength = analyzer.frequencyBinCount;
+dataArr = new Uint8Array(bufferLength);
+barWidth = CANVAS_WIDTH / bufferLength;
+
+x = 0;
+BAR_GAP = 5;
+BAR_SUBTRACT = 0.7;
+
+function animate() {
+  let x1 = CANVAS_WIDTH / 2;
+  let x2 = CANVAS_WIDTH / 2;
+  ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+  analyzer.getByteFrequencyData(dataArr);
+  for (let i = 0; i < bufferLength; i += 2) {
+    barHeight = dataArr[i];
+    ctx.fillStyle = "#ff9fbf";
+    // ctx.fillRect(
+    //   x1,
+    //   CANVAS_HEIGHT - barHeight * BAR_SUBTRACT,
+    //   barWidth - BAR_GAP,
+    //   barHeight * BAR_SUBTRACT
+    // );
+    for (let y = 0; y < barHeight / barWidth; y++) {
+      ctx.fillRect(
+        x1,
+        CANVAS_HEIGHT - y * barWidth,
+        barWidth - BAR_GAP,
+        barWidth - BAR_GAP
+      );
+    }
+    x1 -= barWidth;
+  }
+  for (let i = 0; i < bufferLength; i += 2) {
+    barHeight = dataArr[i];
+    ctx.fillStyle = "#ff9fbf";
+    // ctx.fillRect(
+    //   x2,
+    //   CANVAS_HEIGHT - barHeight * BAR_SUBTRACT,
+    //   barWidth - BAR_GAP,
+    //   barHeight * BAR_SUBTRACT
+    // );
+    for (let y = 0; y < barHeight / barWidth; y++) {
+      ctx.fillRect(
+        x2,
+        CANVAS_HEIGHT - y * barWidth,
+        barWidth - BAR_GAP,
+        barWidth - BAR_GAP
+      );
+    }
+    x2 += barWidth;
+  }
+  requestAnimationFrame(animate);
+}
+
+animate();
+
+function calcTime(sec) {
+  const min = Math.floor(sec / 60);
+  const seconds = Math.floor(sec % 60);
+  const remainingSeconds = seconds < 10 ? `0${seconds}` : seconds;
+  return `${min}:${remainingSeconds}`;
+}
 
 function togglePlayButton() {
-  if (PLAYER_STATE === "pause") {
+  if (PLAYER_STATE === "pause" && $("#music-player-audio").attr("src") === "") {
+    // if there is no music playing, play the first track automatically
+    TRACK_LIST_INDEX = 0;
+    $("#music-player-audio").attr(
+      "src",
+      `/static/music/${TRACK_LIST[TRACK_LIST_INDEX]}`
+    );
+    $(".track-list-container")
+      .find("div")
+      .eq(TRACK_LIST_INDEX)
+      .addClass("active");
+    $("#play-pause-button-icon")
+      .removeClass(PLAY_BUTTON_CLASS)
+      .addClass(PAUSE_BUTTON_CLASS);
+    PLAYER_STATE = "play";
+    $("#music-player-audio")[0].play();
+  } else if (
+    PLAYER_STATE === "pause" &&
+    $("music-player-audio").attr("src") !== ""
+  ) {
     $("#play-pause-button-icon")
       .removeClass(PLAY_BUTTON_CLASS)
       .addClass(PAUSE_BUTTON_CLASS);
@@ -21,12 +120,27 @@ function togglePlayButton() {
 function createMusicTrack(file) {
   const clone = $($("#music-track-template").html());
   $(clone).text(file);
-  $(".track-list").append(clone);
+  $(".track-list-container").append(clone);
+
   $(clone).click(function (e) {
-    $("#music-player-audio")[0].pause();
+    $(".track-list-container")
+      .find("div")
+      .eq(TRACK_LIST_INDEX)
+      .removeClass("active");
     $("#music-player-audio")[0].currentTime = 0;
     $("#music-player-audio").attr("src", `/static/music/${file}`);
-    togglePlayButton();
+    if (PLAYER_STATE === "pause") {
+      $("#play-pause-button-icon")
+        .removeClass(PLAY_BUTTON_CLASS)
+        .addClass(PAUSE_BUTTON_CLASS);
+      PLAYER_STATE = "play";
+    }
+    TRACK_LIST_INDEX = TRACK_LIST.findIndex((track) => track === file);
+    $(".track-list-container")
+      .find("div")
+      .eq(TRACK_LIST_INDEX)
+      .addClass("active");
+    $("#music-player-audio")[0].play();
   });
 }
 
@@ -38,8 +152,110 @@ $(".music-player-play").click(function (e) {
   togglePlayButton();
 });
 
+$(".music-player-rewind").click(function (e) {
+  $(".track-list-container")
+    .find("div")
+    .eq(TRACK_LIST_INDEX)
+    .removeClass("active");
+  if (TRACK_LIST_INDEX > 0) TRACK_LIST_INDEX--;
+  else TRACK_LIST_INDEX = TRACK_LIST.length - 1;
+  $("#music-player-audio").attr(
+    "src",
+    `/static/music/${TRACK_LIST[TRACK_LIST_INDEX]}`
+  );
+  $("#music-player-audio")[0].currentTime = 0;
+  $(".track-list-container")
+    .find("div")
+    .eq(TRACK_LIST_INDEX)
+    .addClass("active");
+  $("#music-player-audio")[0].play();
+});
+
+$(".music-player-forward").click(function (e) {
+  $(".track-list-container")
+    .find("div")
+    .eq(TRACK_LIST_INDEX)
+    .removeClass("active");
+  if (TRACK_LIST_INDEX < TRACK_LIST.length - 1) TRACK_LIST_INDEX++;
+  else TRACK_LIST_INDEX = 0;
+  $("#music-player-audio").attr(
+    "src",
+    `/static/music/${TRACK_LIST[TRACK_LIST_INDEX]}`
+  );
+  $("#music-player-audio")[0].currentTime = 0;
+  $(".track-list-container")
+    .find("div")
+    .eq(TRACK_LIST_INDEX)
+    .addClass("active");
+  $("#music-player-audio")[0].play();
+});
+
+$(".music-player-seeker-range").on("input", function (e) {
+  $(".music-player-seeker-current-time").text(calcTime(e.target.value));
+  $("#music-player-audio")[0].currentTime = e.target.value;
+});
+
+$("#music-player-audio").on("timeupdate", function (e) {
+  $(".music-player-seeker-range").attr(
+    "value",
+    Math.floor($(this).prop("currentTime"))
+  );
+  $(".music-player-seeker-current-time").text(
+    calcTime($(".music-player-seeker-range").attr("value"))
+  );
+});
+
+$("#music-player-audio").on("ended", function () {
+  $(".track-list-container")
+    .find("div")
+    .eq(TRACK_LIST_INDEX)
+    .removeClass("active");
+  if (TRACK_LIST_INDEX < TRACK_LIST.length - 1) TRACK_LIST_INDEX++;
+  else TRACK_LIST_INDEX = 0;
+  $("#music-player-audio").attr(
+    "src",
+    `/static/music/${TRACK_LIST[TRACK_LIST_INDEX]}`
+  );
+  $("#music-player-audio")[0].currentTime = 0;
+  $(".track-list-container")
+    .find("div")
+    .eq(TRACK_LIST_INDEX)
+    .addClass("active");
+  $("#music-player-audio")[0].play();
+});
+
 $(document).ready(function () {
   axios.get("/music/retrieve").then(function (res) {
+    TRACK_LIST = res.data;
     res.data.forEach((file) => createMusicTrack(file));
+
+    TRACK_LIST_INDEX = TRACK_LIST.findIndex((track) => {
+      return $("#music-player-audio").attr("src").includes(track);
+    });
+    if (TRACK_LIST_INDEX >= 0)
+      $(".track-list-container")
+        .find("div")
+        .eq(TRACK_LIST_INDEX)
+        .addClass("active");
   });
 });
+
+if ($("#music-player-audio").prop("readyState") > 0) {
+  $(".music-player-seeker-duration").text(
+    calcTime($("#music-player-audio").prop("duration"))
+  );
+  $(".music-player-seeker-range").attr(
+    "max",
+    $("#music-player-audio").prop("duration")
+  );
+} else {
+  $("#music-player-audio").on("loadedmetadata", function () {
+    $(".music-player-seeker-duration").text(
+      calcTime($("#music-player-audio").prop("duration"))
+    );
+    $(".music-player-seeker-range").attr(
+      "max",
+      $("#music-player-audio").prop("duration")
+    );
+  });
+}
