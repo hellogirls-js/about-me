@@ -38,9 +38,7 @@ function moveToTop(window) {
   $("#desktop")
     .children()
     .each(function (i, val) {
-      console.log($(this).css("z-index"), maxZ);
       if ($(this).css("z-index") == maxZ) {
-        console.log("hi");
         const z = $(this).css("z-index");
         $(this).css("z-index", z - 1);
       }
