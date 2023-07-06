@@ -251,6 +251,7 @@
   user-select: none;
   transition: background-color 0.1s;
   text-align: center;
+  padding: 0% 1%;
 }
 
 #dashboard-start-button i {
