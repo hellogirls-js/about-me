@@ -47,6 +47,7 @@ $(document).ready(function () {
 });
 
 $("#music-player-audio").on("ended", function () {
+  let currIndex = TRACK_LIST_INDEX;
   if (TRACK_LIST_INDEX < MUSIC_TRACK_LIST.length - 1) TRACK_LIST_INDEX++;
   else TRACK_LIST_INDEX = 0;
   $("#music-player-audio").attr(
@@ -55,9 +56,17 @@ $("#music-player-audio").on("ended", function () {
   );
   $("#music-player-audio")[0].currentTime = 0;
   $(".track-list-container")
-    .find("div")
+    .find(".music-track")
     .eq(TRACK_LIST_INDEX)
     .addClass("active");
+  $(".track-list-container")
+    .find(".music-track")
+    .eq(TRACK_LIST_INDEX)
+    .addClass("active");
+  $(".track-list-container")
+    .find(".music-track")
+    .eq(currIndex)
+    .removeClass("active");
   $("#music-player-audio")[0].play();
 });
 

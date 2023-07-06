@@ -23,7 +23,7 @@ barWidth = CANVAS_WIDTH / bufferLength;
 
 x = 0;
 BAR_GAP = 5;
-BAR_SUBTRACT = 0.7;
+BAR_SUBTRACT = 0.9;
 
 function animate() {
   let x1 = CANVAS_WIDTH / 2;
@@ -39,7 +39,7 @@ function animate() {
     //   barWidth - BAR_GAP,
     //   barHeight * BAR_SUBTRACT
     // );
-    for (let y = 0; y < barHeight / barWidth; y++) {
+    for (let y = 0; y < (barHeight * BAR_SUBTRACT) / barWidth; y++) {
       ctx.fillRect(
         x1,
         CANVAS_HEIGHT - y * barWidth,
@@ -58,7 +58,7 @@ function animate() {
     //   barWidth - BAR_GAP,
     //   barHeight * BAR_SUBTRACT
     // );
-    for (let y = 0; y < barHeight / barWidth; y++) {
+    for (let y = 0; y < (barHeight * BAR_SUBTRACT) / barWidth; y++) {
       ctx.fillRect(
         x2,
         CANVAS_HEIGHT - y * barWidth,
@@ -97,6 +97,7 @@ function togglePlayButton() {
       .addClass(PAUSE_BUTTON_CLASS);
     PLAYER_STATE = "play";
     $("#music-player-audio")[0].play();
+    $(".music-player-seeker-range").attr("disabled", false);
   } else if (
     PLAYER_STATE === "pause" &&
     $("music-player-audio").attr("src") !== ""
@@ -127,6 +128,7 @@ function createMusicTrack(file) {
       .removeClass("active");
     $("#music-player-audio")[0].currentTime = 0;
     $("#music-player-audio").attr("src", `/static/music/${file}`);
+    $(".music-player-seeker-range").prop("disabled", false);
     if (PLAYER_STATE === "pause") {
       $("#play-pause-button-icon")
         .removeClass(PLAY_BUTTON_CLASS)
@@ -194,15 +196,21 @@ $(".music-player-forward").click(function (e) {
 });
 
 $(".music-player-seeker-range").on("input", function (e) {
+  e.preventDefault();
   $(".music-player-seeker-current-time").text(calcTime(e.target.value));
   $("#music-player-audio")[0].currentTime = e.target.value;
 });
 
 $("#music-player-audio").on("timeupdate", function (e) {
+  e.preventDefault();
   $(".music-player-seeker-range").attr(
     "value",
     Math.floor($(this).prop("currentTime"))
   );
+  if (document.getElementsByClassName("music-player-seeker-range")[0]) {
+    document.getElementsByClassName("music-player-seeker-range")[0].value =
+      Math.floor($(this).prop("currentTime"));
+  }
   $(".music-player-seeker-current-time").text(
     calcTime($(".music-player-seeker-range").attr("value"))
   );
@@ -226,6 +234,12 @@ $(document).ready(function () {
       .find("div")
       .eq(TRACK_LIST_INDEX)
       .addClass("active");
+
+  if ($("#music-player-audio").attr("src") === "") {
+    $(".music-player-seeker-range").prop("disabled", true);
+  } else {
+    $(".music-player-seeker-range").prop("disabled", false);
+  }
 });
 
 if ($("#music-player-audio").prop("readyState") > 0) {
