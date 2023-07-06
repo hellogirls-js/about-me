@@ -131,6 +131,9 @@ i {
 
 .track-list {
   padding: 3%;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: flex-start;
 }
 
 .track-list-title {
@@ -140,6 +143,8 @@ i {
 }
 
 .track-list-container {
+  flex-basis: 60%;
+  max-height: 70%;
   padding: 3%;
   padding-top: 0;
   overflow-x: clip;

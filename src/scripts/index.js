@@ -44,6 +44,8 @@ $(document).ready(function () {
   axios.get("/music/retrieve").then(function (res) {
     MUSIC_TRACK_LIST = res.data;
   });
+
+  $("#music-player-audio").prop("volume", 0.6);
 });
 
 $("#music-player-audio").on("ended", function () {
