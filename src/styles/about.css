@@ -35,9 +35,11 @@
   height: 200px;
   background-color: #fff;
   border-radius: 50%;
-  background-image: url("/static/images/femme_niki.png");
+  background-image: url("/static/images/niki_gif_filter.gif");
   background-repeat: no-repeat;
-  background-size: cover;
+  background-position: 50% 3%;
+  background-size: 470px auto;
+  overflow: clip;
 }
 
 .about-basic-info-container {

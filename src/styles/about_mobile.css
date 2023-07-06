@@ -1,0 +1,64 @@
+.about {
+  height: 100vh;
+  height: calc(var(--vh, 1vh) * 100);
+  overflow-y: scroll;
+  background-image: linear-gradient(to right bottom, #ffc6e6, #fbc6eb, #f6c7f0, #f0c8f5, #eac9fa, #e1cdfd, #d8d1ff, #d1d4ff, #c9daff, #c3e0ff, #bfe5ff, #bee9ff);
+}
+
+.about-basics-col {
+  width: 100%;
+  padding: 2% 4%;
+  margin-top: 15%;
+}
+
+.about-basic-icon {
+  width: 50vw;
+  height: 50vw;
+  margin: auto;
+  background-color: #fff;
+  border-radius: 50%;
+  background-image: url("/static/images/niki_gif_filter.gif");
+  background-repeat: no-repeat;
+  background-position: 50% 3%;
+  background-size: 470px auto;
+  overflow: clip;
+  pointer-events: none;
+}
+
+.about-basic-info-container {
+  width: 100%;
+}
+
+.about-basic-info {
+  background-color: #fff;
+  margin: 3% 0%;
+  border-radius: 5px;
+  padding: 2%;
+  box-shadow: 2px 2px 0px #d173c4;
+}
+
+.abt-basic-info-label {
+  font-weight: 600;
+  color: #ff4bae;
+}
+
+.about-paragraph {
+  width: 95%;
+  margin: 5% auto;
+  background: #fff;
+  box-shadow: 2px 2px 0px #d173c4;
+  border-radius: 5px;
+  padding: 2%;
+}
+
+.about-longer-col h3 {
+  color: #ec66b0;
+  font-size: 1.3rem;
+}
+
+.about-longer-col h3::after {
+  content: "!!";
+  color: #74abff;
+  font-weight: 800;
+  font-style: italic;
+}
