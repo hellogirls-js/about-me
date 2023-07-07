@@ -61,6 +61,12 @@ function createWindow(type, position) {
         case "chat_box":
           $(".window-icon", clone).html('<i class="ti ti-message-2"></i>');
           break;
+        case "music":
+          $(".window-icon", clone).html('<i class="ti ti-playlist"></i>');
+          break;
+        case "projects":
+          $(".window-icon", clone).html('<i class="ti ti-folder-heart"></i>');
+          break;
       }
       $(clone).css({
         top: position.y,

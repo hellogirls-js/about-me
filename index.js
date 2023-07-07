@@ -27,6 +27,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
+const serve_favicon_1 = __importDefault(require("serve-favicon"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const mysql_1 = __importDefault(require("mysql"));
 const fs = __importStar(require("node:fs"));
@@ -50,6 +51,7 @@ const port = process.env.PORT || 3001;
 app.use(express_1.default.json());
 app.use(express_1.default.static(path.join(__dirname, "/src")));
 app.use("/static", express_1.default.static(path.join(__dirname, "/public")));
+app.use((0, serve_favicon_1.default)(path.join(__dirname, 'public', 'favicon.ico')));
 app.get("/", (req, res) => {
     res.sendFile(path.join(__dirname, "/src/views/index.html"));
 });
@@ -58,6 +60,9 @@ app.get("/partial/:mode", (req, res) => {
 });
 app.get("/partial/:mode/:id", (req, res) => {
     res.sendFile(path.join(__dirname, `/src/views/partials/${req.params.mode}/${req.params.id}.html`));
+});
+app.get("/data/:file", (req, res) => {
+    res.sendFile(path.join(__dirname, `src/data/${req.params.file}`));
 });
 app.listen(port, () => {
     console.log(`listening on port ${port}`);

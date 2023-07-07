@@ -62,3 +62,7 @@
   font-weight: 800;
   font-style: italic;
 }
+
+.about-paragraph strong {
+  color: #895feb;
+}

@@ -22,12 +22,18 @@
 #desktop-icons {
   height: 100%;
   width: 120px;
-  padding: 2%;
+  padding: 10px;
   box-sizing: content-box;
 }
 
 .desktop-icon {
+  width: 120px;
   margin: 20px 0;
+}
+
+.desktop-icon:active {
+  border: 1px solid #ff6dbd;
+  background-color: #ff8aca33;
 }
 
 .desktop-icon-label {
