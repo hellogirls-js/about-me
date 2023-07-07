@@ -1,4 +1,5 @@
 import express, { Express } from "express";
+import favicon from "serve-favicon";
 import dotenv from "dotenv";
 import mysql from "mysql";
 import * as fs from "node:fs";
@@ -27,6 +28,7 @@ const port = process.env.PORT || 3001;
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "/src")));
 app.use("/static", express.static(path.join(__dirname, "/public")));
+app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "/src/views/index.html"));
@@ -38,6 +40,10 @@ app.get("/partial/:mode", (req, res) => {
 
 app.get("/partial/:mode/:id", (req, res) => {
   res.sendFile(path.join(__dirname, `/src/views/partials/${req.params.mode}/${req.params.id}.html`));
+});
+
+app.get("/data/:file", (req, res) => {
+  res.sendFile(path.join(__dirname, `src/data/${req.params.file}`));
 });
 
 app.listen(port, () => {

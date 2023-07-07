@@ -1,0 +1,37 @@
+.projects {
+  background-image: linear-gradient(to right top, #292e67, #2d275b, #2f214f, #2e1b44, #2c1639, #291634, #25152f, #22152a, #1f1727, #1d1924, #1c1b20, #1c1c1c);
+  height: 100vh;
+  height: calc(var(--vh, 1vh) * 100);
+  overflow-y: scroll;
+  padding-top: 15%;
+  color: #fff
+}
+
+.project {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 3%;
+  padding: 4% 2%;
+  border-bottom: 1px solid #ffffff33;
+}
+
+.project-icon {
+  display: inline-block;
+  background-image: url("/static/images/file_folder.png");
+  background-size: cover;
+  width: 50px;
+  height: 44px;
+  pointer-events: none;
+}
+
+.project-label {
+  line-clamp: 1;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.project-arrow {
+  font-size: 1.4rem;
+}
