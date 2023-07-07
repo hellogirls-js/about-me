@@ -9,6 +9,85 @@
   font-weight: 300;
 }
 
+#desktop-divider {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 46px;
+  background-image: url("/static/images/pixel_divider_2.png");
+  pointer-events: none;
+  user-select: none;
+}
+
+#desktop-icons {
+  height: 100%;
+  width: 120px;
+  padding: 2%;
+  box-sizing: content-box;
+}
+
+.desktop-icon {
+  margin: 20px 0;
+}
+
+.desktop-icon-label {
+  width: 100%;
+  color: #fff;
+  font-weight: 600;
+  text-shadow: 0px 0px 3px #291e52da;
+  text-align: center;
+}
+
+.desktop-icon-image {
+  position: relative;
+  filter: drop-shadow(0px 0px 3px #12005577);
+}
+
+.desktop-icon-image::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 20px;
+  height: 20px;
+  background-image: url("/static/images/shortcut-icon.png");
+  background-size: cover;
+  box-shadow: 2px 2px 2px #291e525d;
+}
+
+.desktop-icon#twitter .desktop-icon-image {
+  background-image: url("/static/images/cinnamoroll_pixel_4.gif");
+  width: 100px;
+  height: 120px;
+}
+
+.desktop-icon#tumblr .desktop-icon-image {
+  background-image: url("/static/images/cinnamoroll_pixel_5.gif");
+  width: 100px;
+  height: 120px;
+}
+
+.desktop-icon#retrospring .desktop-icon-image {
+  background-image: url("/static/images/cinnamoroll_pixel_6.gif");
+  width: 100px;
+  height: 120px;
+}
+
+.desktop-icon#coffee .desktop-icon-image {
+  background-image: url("/static/images/cinnamoroll_pixel_7.gif");
+  width: 100px;
+  height: 120px;
+}
+
+#cinnamoroll-pet {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background-image: url("/static/images/cinnamoroll_pixel_1.gif");
+  width: 20px;
+  height: 20px;
+}
+
 .app-container {
   position: absolute;
   box-shadow: 2px 2px 3px var(--shadow);

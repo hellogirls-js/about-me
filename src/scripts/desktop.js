@@ -168,6 +168,26 @@ $("#desktop").click(function () {
   $("#dashboard-start-menu").hide();
 });
 
+$(".desktop-icon").on("dblclick", function (e) {
+  switch ($(this).attr("id")) {
+    case "twitter":
+      window.open("https://twitter.com/hellogirls_DEV");
+      break;
+    case "tumblr":
+      window.open("https://hellogirls-dev.tumblr.com");
+      break;
+    case "retrospring":
+      window.open("https://retrospring.net/@hellogirls");
+      break;
+    case "coffee":
+      window.open("https://buymeacoffee.com/hellogirls");
+      break;
+    default:
+      console.log("no url");
+      break;
+  }
+});
+
 setTime();
 setInterval(() => {
   setTime();
