@@ -6,7 +6,7 @@ axios.get("/data/projects.json").then((res) => {
     $(".project-label", clone).text(proj.title);
     $(".projects-container").append(clone);
 
-    $(clone).on("dblclick", function () {
+    $(clone).on("click", function () {
       window.open(proj.url);
     });
   });
