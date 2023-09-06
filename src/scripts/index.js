@@ -1,204 +1,77 @@
-console.log("if you're reading this. hi");
+let CURRENT_LAYOUT;
 
-const WINDOW_POSITION = { x: 10, y: 3 };
-let WINDOW_ID = 0;
-const WINDOW_OFFSET = 2;
-let Z_INDEX = 3;
+let MUSIC_TRACK_LIST;
+let TRACK_LIST_INDEX;
 
-function getIdClass(el) {
-  return $(el)
-    .attr("class")
-    .split(" ")
-    .find((c) => {
-      return c.includes("id-");
-    });
+function setMusicTrackList(list) {
+  MUSIC_TRACK_LIST = list;
 }
 
-function toggleStartMenu() {
-  $("#dashboard-start-menu").toggle();
-  $(this).toggleClass("active");
+function setTrackListIndex(i) {
+  TRACK_LIST_INDEX = i;
 }
 
-async function getWindowPartial(id) {
-  const partial = await axios.get(`/partial/${id}`);
+async function getPartial(type) {
+  const partial = await axios.get(`/partial/${type}`);
   return partial.data;
 }
 
-function moveToTop(window) {
-  let zIndice = [];
-  $("#desktop")
-    .children()
-    .each(function (i, val) {
-      if (!isNaN(parseInt($(this).css("z-index")))) {
-        zIndice.push(parseInt($(this).css("z-index")));
-      }
-    });
-  const maxZ = Math.max(...zIndice);
-
-  $("#desktop")
-    .children()
-    .each(function (i, val) {
-      console.log($(this).css("z-index"), maxZ);
-      if ($(this).css("z-index") == maxZ) {
-        console.log("hi");
-        const z = $(this).css("z-index");
-        $(this).css("z-index", z - 1);
-      }
-    });
-  $(window).css("z-index", maxZ);
-}
-
-// create elements
-
-function createWindow(type, position) {
-  const clone = $($("#window-template").html());
-  getWindowPartial(type)
-    .then((partial) => {
-      $(".window-content", clone).html(partial);
-      $(".window-title", clone).text(type.replace("_", " "));
-      switch (type) {
-        case "about":
-          $(".window-icon", clone).html('<i class="ti ti-user-heart"></i>');
-          break;
-        case "chat_box":
-          $(".window-icon", clone).html('<i class="ti ti-message-2"></i>');
-          break;
-      }
-      $(clone).css({
-        top: position.y,
-        left: position.x,
-        "z-index": Z_INDEX + WINDOW_ID,
-        position: "absolute",
-      });
-      if (type === "chat_box") {
-        $(clone).css({ width: 300, height: 500 });
-      } else {
-        $(clone).css({ width: 700, height: 450 });
-      }
-      $(clone).addClass(`id-${WINDOW_ID}`);
-      $(clone).draggable({
-        handle: ".app-header",
-        containment: "parent",
-      });
-      $("#desktop").append(clone);
-      createDashboardItem(type.replace("_", " "));
-
-      $(clone).click(function (e) {
-        moveToTop(this);
-      });
-
-      $(".window-minimize", clone).click(function () {
-        const idClass = getIdClass(clone);
-        $(`.dashboard-item-container.${idClass}`).removeClass("active");
-        $(clone).hide();
-      });
-
-      $(".window-close", clone).click(function () {
-        const idClass = getIdClass(clone);
-        $(`.dashboard-item-container.${idClass}`).remove();
-        $(clone).remove();
-      });
-      WINDOW_ID++;
-    })
-    .catch((error) => console.error(error));
-}
-
-function createStickyNote(title, content, position) {
-  const clone = $($("#sticky-template").html());
-  $(".sticky-title", clone).val(title);
-  $(".sticky-content", clone).val(content);
-  $(clone).css({
-    top: position.y,
-    left: position.x,
-    "z-index": Z_INDEX + WINDOW_ID,
-    position: "absolute",
-  });
-  $(clone).addClass(`id-${WINDOW_ID}`);
-  $(clone).draggable({
-    handle: ".app-header, .sticky-title",
-    containment: "parent",
-  });
-  $("#desktop").append(clone);
-  createDashboardItem("sticky note");
-
-  $(clone).click(function (e) {
-    moveToTop(this);
-  });
-
-  $(".sticky-minimize", clone).click(function () {
-    const idClass = getIdClass(clone);
-    $(`.dashboard-item-container.${idClass}`).removeClass("active");
-    $(clone).hide();
-  });
-  $(".sticky-close", clone).click(function () {
-    const idClass = getIdClass(clone);
-    $(`.dashboard-item-container.${idClass}`).remove();
-    $(clone).remove();
-  });
-  WINDOW_ID++;
-}
-
-function createDashboardItem(text) {
-  const clone = $($("#dashboard-item-template").html());
-  $(".dashboard-item-text", clone).text(text);
-  $(clone).addClass("active");
-  $(clone).addClass(`id-${WINDOW_ID}`);
-  $("#dashboard-items").append(clone);
-  $(clone).click(function () {
-    $(this).toggleClass("active");
-    const idClass = getIdClass(clone);
-    $(`.app-container.${idClass}`).toggle();
-  });
-}
-
-$("#dashboard-start-menu").hide();
-$("#dashboard-start-button").click(function () {
-  toggleStartMenu();
-});
-
-$("#desktop").click(function () {
-  $("#dashboard-start-menu").hide();
-});
-
-$("#dashboard-time").text(dayjs().format("hh:mmA"));
-$("#dashboard-date").text(dayjs().format("MM/DD/YYYY"));
-
-$(".dashboard-start-tooltip-container").mouseenter(function () {
-  $(this).children(".dashboard-start-tooltip").show();
-});
-
-$(".dashboard-start-tooltip-container").mouseleave(function () {
-  $(this).children(".dashboard-start-tooltip").hide();
-});
-
-$(".dashboard-start-item").click(function () {
-  const id = $(this).attr("id").split("-")[1];
-  if (id === "sticky_note") {
-    createStickyNote("new sticky", "", {
-      x: `${WINDOW_POSITION.x + WINDOW_OFFSET * WINDOW_ID}%`,
-      y: `${WINDOW_POSITION.y + WINDOW_OFFSET * WINDOW_ID}%`,
-    });
+function getDeviceLayout() {
+  const aspectRatio = window.innerWidth / window.innerHeight;
+  if (aspectRatio >= 1) {
+    if (CURRENT_LAYOUT !== "desktop") {
+      CURRENT_LAYOUT = "desktop";
+      getPartial(CURRENT_LAYOUT)
+        .then(function (partial) {
+          $("#container").html(partial);
+        })
+        .catch((error) => console.error(error));
+    }
   } else {
-    createWindow(id, {
-      x: `${WINDOW_POSITION.x + WINDOW_OFFSET * WINDOW_ID}%`,
-      y: `${WINDOW_POSITION.y + WINDOW_OFFSET * WINDOW_ID}%`,
-    });
+    if (CURRENT_LAYOUT !== "mobile") {
+      CURRENT_LAYOUT = "mobile";
+      getPartial(CURRENT_LAYOUT)
+        .then(function (partial) {
+          $("#container").html(partial);
+        })
+        .catch((error) => console.error(error));
+    }
   }
-  toggleStartMenu();
-});
+}
 
 $(document).ready(function () {
-  createStickyNote(
-    "welcome!!!",
-    "hi! welcome to my about page. to navigate this site, click on the start menu. have a nice day!",
-    {
-      x: `${WINDOW_POSITION.x + WINDOW_OFFSET * WINDOW_ID}%`,
-      y: `${WINDOW_POSITION.y + WINDOW_OFFSET * WINDOW_ID}%`,
-    }
-  );
-
-  createWindow("chat_box", {
-    x: "67%",
-    y: "8%",
+  getDeviceLayout();
+  axios.get("/music/retrieve").then(function (res) {
+    MUSIC_TRACK_LIST = res.data;
   });
+
+  $("#music-player-audio").prop("volume", 0.6);
+});
+
+$("#music-player-audio").on("ended", function () {
+  let currIndex = TRACK_LIST_INDEX;
+  if (TRACK_LIST_INDEX < MUSIC_TRACK_LIST.length - 1) TRACK_LIST_INDEX++;
+  else TRACK_LIST_INDEX = 0;
+  $("#music-player-audio").attr(
+    "src",
+    `/static/music/${MUSIC_TRACK_LIST[TRACK_LIST_INDEX]}`
+  );
+  $("#music-player-audio")[0].currentTime = 0;
+  $(".track-list-container")
+    .find(".music-track")
+    .eq(TRACK_LIST_INDEX)
+    .addClass("active");
+  $(".track-list-container")
+    .find(".music-track")
+    .eq(TRACK_LIST_INDEX)
+    .addClass("active");
+  $(".track-list-container")
+    .find(".music-track")
+    .eq(currIndex)
+    .removeClass("active");
+  $("#music-player-audio")[0].play();
+});
+
+$(window).resize(function () {
+  getDeviceLayout();
 });

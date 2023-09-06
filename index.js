@@ -1,11 +1,36 @@
 "use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
+const serve_favicon_1 = __importDefault(require("serve-favicon"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const mysql_1 = __importDefault(require("mysql"));
+const fs = __importStar(require("node:fs"));
 const path = require("path");
 dotenv_1.default.config();
 const connection = mysql_1.default.createConnection({
@@ -22,15 +47,22 @@ connection.connect(function (err) {
     }
 });
 const app = (0, express_1.default)();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3001;
 app.use(express_1.default.json());
 app.use(express_1.default.static(path.join(__dirname, "/src")));
 app.use("/static", express_1.default.static(path.join(__dirname, "/public")));
+app.use((0, serve_favicon_1.default)(path.join(__dirname, 'public', 'favicon.ico')));
 app.get("/", (req, res) => {
     res.sendFile(path.join(__dirname, "/src/views/index.html"));
 });
-app.get("/partial/:id", (req, res) => {
-    res.sendFile(path.join(__dirname, `/src/views/partials/${req.params.id}.html`));
+app.get("/partial/:mode", (req, res) => {
+    res.sendFile(path.join(__dirname, `/src/views/partials/${req.params.mode}/index.html`));
+});
+app.get("/partial/:mode/:id", (req, res) => {
+    res.sendFile(path.join(__dirname, `/src/views/partials/${req.params.mode}/${req.params.id}.html`));
+});
+app.get("/data/:file", (req, res) => {
+    res.sendFile(path.join(__dirname, `src/data/${req.params.file}`));
 });
 app.listen(port, () => {
     console.log(`listening on port ${port}`);
@@ -60,4 +92,15 @@ app.get("/chat/retrieve", (req, res) => {
             throw err;
         res.send(result);
     });
+});
+app.get("/music/retrieve", (req, res) => {
+    const MUSIC_PATH = "/public/music";
+    const musicFiles = fs.readdirSync(path.join(__dirname, MUSIC_PATH));
+    if (musicFiles) {
+        res.send(musicFiles);
+    }
+    else {
+        console.error("could not retrieve music files");
+        throw new Error("Could not retrieve music files");
+    }
 });
