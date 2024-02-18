@@ -135,6 +135,7 @@
 }
 
 .sticky-header {
+  color: #000;
   background-image: linear-gradient(to right, #f7cc6f, #f3c769);
   padding: 2%;
 }
@@ -307,7 +308,8 @@
   transform: scale(1.2);
 }
 
-.grid-item-container:link, .grid-item-container:visited {
+.grid-item-container:link,
+.grid-item-container:visited {
   text-decoration: none;
   color: #fff;
 }
@@ -408,6 +410,3 @@
   text-align: center;
   user-select: none;
 }
-
-
-

@@ -3,6 +3,7 @@
   flex-flow: column nowrap;
   width: 100%;
   height: 100%;
+  color: #000;
 }
 
 textarea {
@@ -47,6 +48,7 @@ textarea {
   padding: 7% 4% 4% 4%;
   font-size: 0.9rem;
   font-weight: 400;
+  word-wrap: break-word;
 }
 
 .chatbox-msg-timestamp {
@@ -81,7 +83,8 @@ textarea {
   border-radius: 10px;
 }
 
-.chatbox-form-container input[type="text"], .chatbox-form-msg-section textarea {
+.chatbox-form-container input[type="text"],
+.chatbox-form-msg-section textarea {
   background-color: #ffe6f5;
   border: none;
   font-size: 0.9rem;
@@ -90,7 +93,8 @@ textarea {
   cursor: text;
 }
 
-.chatbox-form-container input[type="text"]:focus, .chatbox-form-msg-section textarea:focus {
+.chatbox-form-container input[type="text"]:focus,
+.chatbox-form-msg-section textarea:focus {
   outline: none;
 }
 

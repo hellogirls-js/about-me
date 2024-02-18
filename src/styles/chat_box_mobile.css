@@ -3,6 +3,7 @@
   height: 100%;
   max-height: 100vh;
   max-height: calc(var(--vh, 1vh) * 100);
+  color: #000;
 }
 
 .chatbox-msg-container {
@@ -45,6 +46,7 @@
   padding: 8% 3% 3% 3%;
   box-shadow: 2px 2px 2px #17004e2c;
   width: 100%;
+  word-wrap: break-word;
 }
 
 .chatbox-msg-timestamp {
@@ -69,7 +71,8 @@
   grid-template-columns: repeat(5, 1fr);
 }
 
-input[type=text], textarea {
+input[type="text"],
+textarea {
   border: none;
   border-radius: 5px;
   resize: none;
@@ -78,7 +81,7 @@ input[type=text], textarea {
   color: #331894;
 }
 
-input[type=text] {
+input[type="text"] {
   width: 80%;
 }
 
@@ -88,12 +91,13 @@ textarea {
   grid-column-end: span 4;
 }
 
-input[type=text]:focus, textarea:focus {
+input[type="text"]:focus,
+textarea:focus {
   outline: none;
   border: none;
 }
 
-input[type=submit] {
+input[type="submit"] {
   height: 100%;
   border: none;
   background-color: #ff60a2;
