@@ -4,6 +4,7 @@
   user-select: none;
   display: flex;
   flex-flow: column nowrap;
+  color: #000;
 }
 
 .projects-path {
@@ -27,6 +28,7 @@
   gap: 3%;
   padding: 2%;
   border: 2px solid #8aa6ff;
+  overflow: auto;
 }
 
 .project {

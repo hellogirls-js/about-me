@@ -52,12 +52,14 @@
   background-color: #ff8bb2;
   border-radius: 10px;
   max-height: 5px;
+  height: 5px;
 }
 
 .music-player-seeker-range::-webkit-slider-runnable-track {
   width: 98%;
   margin: auto;
   max-height: 5px;
+  height: 5px;
   background-color: #ff8bb2;
   border-radius: 10px;
 }

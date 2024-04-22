@@ -2,7 +2,21 @@
   height: 100vh;
   height: calc(var(--vh, 1vh) * 100);
   overflow-y: scroll;
-  background-image: linear-gradient(to right bottom, #ffc6e6, #fbc6eb, #f6c7f0, #f0c8f5, #eac9fa, #e1cdfd, #d8d1ff, #d1d4ff, #c9daff, #c3e0ff, #bfe5ff, #bee9ff);
+  background-image: linear-gradient(
+    to right bottom,
+    #ffc6e6,
+    #fbc6eb,
+    #f6c7f0,
+    #f0c8f5,
+    #eac9fa,
+    #e1cdfd,
+    #d8d1ff,
+    #d1d4ff,
+    #c9daff,
+    #c3e0ff,
+    #bfe5ff,
+    #bee9ff
+  );
 }
 
 .about-basics-col {
@@ -34,7 +48,7 @@
   margin: 3% 0%;
   border-radius: 5px;
   padding: 2%;
-  box-shadow: 2px 2px 0px #d173c4;
+  box-shadow: 0px 2px 2px #0000004a;
 }
 
 .abt-basic-info-label {
@@ -46,7 +60,7 @@
   width: 95%;
   margin: 5% auto;
   background: #fff;
-  box-shadow: 2px 2px 0px #d173c4;
+  box-shadow: 0px 2px 2px #0000004a;
   border-radius: 5px;
   padding: 2%;
 }

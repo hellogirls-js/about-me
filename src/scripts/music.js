@@ -251,6 +251,13 @@ $("#music-player-audio").on("ended", function () {
     .find("div")
     .eq(TRACK_LIST_INDEX)
     .removeClass("active");
+  if (TRACK_LIST_INDEX < MUSIC_TRACK_LIST.length - 1)
+    setTrackListIndex(currIndex + 1);
+  else setTrackListIndex(0);
+  $(".track-list-container")
+    .find("div")
+    .eq(TRACK_LIST_INDEX)
+    .addClass("active");
 });
 
 $(document).ready(function () {

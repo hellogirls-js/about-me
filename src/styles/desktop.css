@@ -120,6 +120,7 @@
   align-items: center;
   justify-content: space-between;
   overflow: clip;
+  min-height: 30px;
 }
 
 .window-header {
@@ -203,7 +204,7 @@
   box-sizing: content-box;
   z-index: 999;
   width: 98%;
-  height: 6vh;
+  height: 4vh;
   padding: 0% 1%;
   background-image: linear-gradient(to right, #6473ff, #7262ff);
   color: #fff;
@@ -226,7 +227,7 @@
   display: flex;
   z-index: 1000;
   position: absolute;
-  bottom: 6vh;
+  bottom: 4vh;
   width: 26vw;
   height: 70vh;
   background-image: linear-gradient(#6655fc, #6473ff);

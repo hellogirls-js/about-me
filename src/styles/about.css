@@ -5,9 +5,11 @@
   display: flex;
   font-size: 1.1rem;
   font-weight: 400;
+  color: #000;
 }
 
-.about h3, .about strong {
+.about h3,
+.about strong {
   color: #5991e6;
 }
 
