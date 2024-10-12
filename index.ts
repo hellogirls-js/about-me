@@ -1,4 +1,5 @@
 import express, { Express } from "express";
+import { rateLimit } from "express-rate-limit";
 import favicon from "serve-favicon";
 import dotenv from "dotenv";
 import mysql from "mysql";
@@ -25,7 +26,13 @@ connection.connect(function (err) {
 const app: Express = express();
 const port = process.env.PORT || 3001;
 
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  limit: 5,
+})
+
 app.use(express.json());
+app.use(limiter);
 app.use(express.static(path.join(__dirname, "/src")));
 app.use("/static", express.static(path.join(__dirname, "/public")));
 app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
@@ -54,11 +61,13 @@ app.post("/chat/send", (req, res) => {
   const data = req.body;
   if (res.statusCode === 200) {
     if (data.bot) {
-      res.status(401);
+      res.status(401).send("Must be a human to submit");
+    } else if (!data.name?.length || !data.msg?.length) {
+      res.status(400).send("Missing fields for name or message");
     } else {
       // add to database
       connection.query(`INSERT INTO chatbox_msg (name, message) VALUES ('${data.name}', '${data.msg}')`, function (err, result) {
-        if (err) throw err;
+        if (err) res.status(400).send("Could not add message to the chatbox");
         res.redirect("/");
       });
     }
@@ -69,8 +78,8 @@ app.post("/chat/send", (req, res) => {
 
 app.get("/chat/retrieve", (req, res) => {
   connection.query("SELECT * FROM chatbox_msg", function(err, result, fields) {
-    if (err) throw err;
-    res.send(result);
+    if (err) res.status(500).send("Could not retrieve chatbox messages");
+    else res.send(result);
   });
 });
 
@@ -78,9 +87,9 @@ app.get("/music/retrieve", (req, res) => {
   const MUSIC_PATH = "/public/music";
   const musicFiles = fs.readdirSync(path.join(__dirname, MUSIC_PATH));
   if (musicFiles) {
-    res.send(musicFiles);
+    res.status(200).send(musicFiles);
   } else {
     console.error("could not retrieve music files");
-    throw new Error("Could not retrieve music files");
+    res.status(500).send("Could not retrieve music files");
   }
 });

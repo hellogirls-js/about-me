@@ -27,6 +27,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
+const express_rate_limit_1 = require("express-rate-limit");
 const serve_favicon_1 = __importDefault(require("serve-favicon"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const mysql_1 = __importDefault(require("mysql"));
@@ -48,7 +49,12 @@ connection.connect(function (err) {
 });
 const app = (0, express_1.default)();
 const port = process.env.PORT || 3001;
+const limiter = (0, express_rate_limit_1.rateLimit)({
+    windowMs: 15 * 60 * 1000,
+    limit: 5,
+});
 app.use(express_1.default.json());
+app.use(limiter);
 app.use(express_1.default.static(path.join(__dirname, "/src")));
 app.use("/static", express_1.default.static(path.join(__dirname, "/public")));
 app.use((0, serve_favicon_1.default)(path.join(__dirname, 'public', 'favicon.ico')));
@@ -68,16 +74,20 @@ app.listen(port, () => {
     console.log(`listening on port ${port}`);
 });
 app.post("/chat/send", (req, res) => {
+    var _a, _b;
     const data = req.body;
     if (res.statusCode === 200) {
         if (data.bot) {
-            res.status(401);
+            res.status(401).send("Must be a human to submit");
+        }
+        else if (!((_a = data.name) === null || _a === void 0 ? void 0 : _a.length) || !((_b = data.msg) === null || _b === void 0 ? void 0 : _b.length)) {
+            res.status(400).send("Missing fields for name or message");
         }
         else {
             // add to database
             connection.query(`INSERT INTO chatbox_msg (name, message) VALUES ('${data.name}', '${data.msg}')`, function (err, result) {
                 if (err)
-                    throw err;
+                    res.status(400).send("Could not add message to the chatbox");
                 res.redirect("/");
             });
         }
@@ -89,18 +99,19 @@ app.post("/chat/send", (req, res) => {
 app.get("/chat/retrieve", (req, res) => {
     connection.query("SELECT * FROM chatbox_msg", function (err, result, fields) {
         if (err)
-            throw err;
-        res.send(result);
+            res.status(500).send("Could not retrieve chatbox messages");
+        else
+            res.send(result);
     });
 });
 app.get("/music/retrieve", (req, res) => {
     const MUSIC_PATH = "/public/music";
     const musicFiles = fs.readdirSync(path.join(__dirname, MUSIC_PATH));
     if (musicFiles) {
-        res.send(musicFiles);
+        res.status(200).send(musicFiles);
     }
     else {
         console.error("could not retrieve music files");
-        throw new Error("Could not retrieve music files");
+        res.status(500).send("Could not retrieve music files");
     }
 });
