@@ -35,7 +35,7 @@ $("#msg-form").on("submit", function (e) {
     .replace(/(<([^>]+)>)/gi, "")
     .replace("'", "''");
 
-  if (!is_bot.is(":checked")) {
+  if (!is_bot.is(":checked") && user_name?.length && user_msg?.length) {
     const data = {
       bot: is_bot.prop("checked"),
       name: user_name,
@@ -54,6 +54,8 @@ $("#msg-form").on("submit", function (e) {
           .catch((error) => console.error(error));
       })
       .catch((error) => console.error(error));
+  } else {
+    console.error("must be a human to submit a form");
   }
 });
 
