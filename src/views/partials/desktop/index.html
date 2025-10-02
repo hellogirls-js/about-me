@@ -27,12 +27,11 @@
     <template id="window-template">
     <div class="window-container app-container">
         <div class="window-header app-header">
-        <div class="window-icon"></div>
         <div class="window-title"></div>
         <div class="window-options app-options">
-            <div class="window-minimize"><i class="ti ti-minus"></i></div>
-            <div class="window-maximize"><i class="ti ti-square"></i></div>
-            <div class="window-close"><i class="ti ti-x"></i></div>
+            <button class="window-minimize"><i class="ti ti-minus"></i></button>
+            <button class="window-maximize"><i class="ti ti-square"></i></button>
+            <button class="window-close"><i class="ti ti-x"></i></button>
         </div>
         </div>
         <div class="window-content app-content">
@@ -118,11 +117,16 @@
             </div>
         </div>
         </div>
-        <div id="dashboard-start-button">
-            <i class="fa-brands fa-windows"></i> start
+        <div id="dashboard-start-button-container">
+            <div id="dashboard-start-button">
+                <div id="dashboard-start-button-icon">
+                </div>
+            </div>
+            <div id="dashboard-start-button-shadow-container">
+                <div id="dashboard-start-button-shadow"></div>
+            </div>
         </div>
     </div>
-    <div class="dashboard-divider"></div>
     <div id="dashboard-items">
         <template id="dashboard-item-template">
         <div class="dashboard-item-container">

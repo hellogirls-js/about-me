@@ -58,8 +58,8 @@ textarea {
 }
 
 .chatbox-form-container {
+  background-color: transparent;
   flex-basis: 10%;
-  background-color: #ffb7e3;
   padding: 2%;
 }
 

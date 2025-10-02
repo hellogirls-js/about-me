@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "son's about me page",
   "main": "index.ts",
+  "sourceType": "module",
   "scripts": {
     "build": "npx tsc",
     "start": "node index.js",
@@ -12,10 +13,10 @@
   "author": "son hellogirls_dev",
   "license": "ISC",
   "dependencies": {
-    "dotenv": "^16.3.1",
+    "dotenv": "^17.2.1",
     "express": "^4.18.2",
     "express-rate-limit": "^7.4.1",
-    "mysql": "^2.18.1",
+    "mysql2": "^3.14.3",
     "path": "^0.12.7",
     "serve-favicon": "^2.5.0"
   },

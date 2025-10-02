@@ -30,13 +30,13 @@ const express_1 = __importDefault(require("express"));
 const express_rate_limit_1 = require("express-rate-limit");
 const serve_favicon_1 = __importDefault(require("serve-favicon"));
 const dotenv_1 = __importDefault(require("dotenv"));
-const mysql_1 = __importDefault(require("mysql"));
+const mysql2_1 = __importDefault(require("mysql2"));
 const fs = __importStar(require("node:fs"));
-const path = require("path");
-dotenv_1.default.config();
-const connection = mysql_1.default.createConnection({
-    host: process.env.IP_ADD,
-    port: '/var/run/mysqld/mysqld.sock',
+const path_1 = __importDefault(require("path"));
+dotenv_1.default.config({ path: path_1.default.resolve(__dirname, ".env.local") });
+const connection = mysql2_1.default.createConnection({
+    host: process.env.IP_ADD || "localhost",
+    port: Number(process.env.PORT) || 3306,
     user: process.env.MYSQL_USER,
     password: process.env.MYSQL_PASSWORD,
     database: process.env.MYSQL_DB_NAME
@@ -48,27 +48,27 @@ connection.connect(function (err) {
     }
 });
 const app = (0, express_1.default)();
-const port = process.env.PORT || 3001;
+const port = process.env.SERVER_PORT || 3001;
 const limiter = (0, express_rate_limit_1.rateLimit)({
-    windowMs: 15 * 60 * 1000,
-    limit: 5,
+    windowMs: 1 * 60 * 1000,
+    limit: 200,
 });
 app.use(express_1.default.json());
 app.use(limiter);
-app.use(express_1.default.static(path.join(__dirname, "/src")));
-app.use("/static", express_1.default.static(path.join(__dirname, "/public")));
-app.use((0, serve_favicon_1.default)(path.join(__dirname, 'public', 'favicon.ico')));
+app.use(express_1.default.static(path_1.default.join(__dirname, "/src")));
+app.use("/static", express_1.default.static(path_1.default.join(__dirname, "/public")));
+app.use((0, serve_favicon_1.default)(path_1.default.join(__dirname, 'public', 'favicon.ico')));
 app.get("/", (req, res) => {
-    res.sendFile(path.join(__dirname, "/src/views/index.html"));
+    res.sendFile(path_1.default.join(__dirname, "/src/views/index.html"));
 });
 app.get("/partial/:mode", (req, res) => {
-    res.sendFile(path.join(__dirname, `/src/views/partials/${req.params.mode}/index.html`));
+    res.sendFile(path_1.default.join(__dirname, `/src/views/partials/${req.params.mode}/index.html`));
 });
 app.get("/partial/:mode/:id", (req, res) => {
-    res.sendFile(path.join(__dirname, `/src/views/partials/${req.params.mode}/${req.params.id}.html`));
+    res.sendFile(path_1.default.join(__dirname, `/src/views/partials/${req.params.mode}/${req.params.id}.html`));
 });
 app.get("/data/:file", (req, res) => {
-    res.sendFile(path.join(__dirname, `src/data/${req.params.file}`));
+    res.sendFile(path_1.default.join(__dirname, `src/data/${req.params.file}`));
 });
 app.listen(port, () => {
     console.log(`listening on port ${port}`);
@@ -85,7 +85,7 @@ app.post("/chat/send", (req, res) => {
         }
         else {
             // add to database
-            connection.query(`INSERT INTO chatbox_msg (name, message) VALUES ('${data.name}', '${data.msg}')`, function (err, result) {
+            connection.query(`INSERT INTO chatbox_msg (name, message) VALUES ('${mysql2_1.default.escape(data.name)}', '${mysql2_1.default.escape(data.msg)}')`, function (err, result) {
                 if (err)
                     res.status(400).send("Could not add message to the chatbox");
                 res.redirect("/");
@@ -99,14 +99,14 @@ app.post("/chat/send", (req, res) => {
 app.get("/chat/retrieve", (req, res) => {
     connection.query("SELECT * FROM chatbox_msg", function (err, result, fields) {
         if (err)
-            res.status(500).send("Could not retrieve chatbox messages");
+            res.status(500).send(`Could not retrieve chatbox messages: ${err.message}`);
         else
             res.send(result);
     });
 });
 app.get("/music/retrieve", (req, res) => {
     const MUSIC_PATH = "/public/music";
-    const musicFiles = fs.readdirSync(path.join(__dirname, MUSIC_PATH));
+    const musicFiles = fs.readdirSync(path_1.default.join(__dirname, MUSIC_PATH));
     if (musicFiles) {
         res.status(200).send(musicFiles);
     }

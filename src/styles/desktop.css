@@ -1,7 +1,15 @@
+#container {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+    -webkit-font-smoothing: none;
+    -moz-osx-font-smoothing: grayscale;
+}
+
 #desktop {
   position: relative;
   width: 100%;
-  height: 96vh;
+  height: 100%;
   background-image: url("/static/images/wallpaper.png");
   background-size: cover;
   background-repeat: no-repeat;
@@ -96,16 +104,21 @@
 
 .app-container {
   position: absolute;
-  box-shadow: 2px 2px 3px var(--shadow);
   overflow: auto;
   resize: both;
   display: flex;
   flex-flow: column nowrap;
+    box-shadow: 0px 0px 40px #0004, 0px 0px 8px #0006;
 }
 
+
 .window-container {
-  border: 1px solid #8aa6ff;
-  overflow: clip;
+background: #ff8ab9;
+background: linear-gradient(90deg, #fff3, #e8619833, #fff3), linear-gradient(0deg, rgba(255, 138, 185, 0.6) 85%, rgba(255, 158, 200, 0.6) 100%);
+  border-radius: 4px;
+  padding: 0px 4px 4px 4px;
+  backdrop-filter: blur(2px);
+  border: 1px solid #fff6;
 }
 
 .sticky-container {
@@ -125,9 +138,10 @@
 
 .window-header {
   padding: 0.5%;
-  background-color: #8aa6ff;
+  padding-top: 0px;
   color: #fff;
   font-weight: 400;
+  align-items: start;
 }
 
 .window-icon {
@@ -161,10 +175,38 @@
   font-size: 1rem;
 }
 
+.window-title {
+    transform: translateY(3px);
+}
+
 .window-options {
   color: #c0ddff;
   flex-basis: 66px;
-  gap: 10%;
+  border: 1px solid #0002;
+  border-top: none;
+  border-radius: 0px 0px 2px 2px;
+  outline: 1px solid #fff3;
+}
+
+.window-options button {
+    background-color: transparent;
+    background-image: linear-gradient(#fff3, transparent);
+    border-top: none;
+    color: #fff;
+    margin: 0;
+    border: none;
+}
+
+.window-options button:first-child {
+    border-right: 1px solid #0002;
+}
+
+.window-options button:last-child {
+    border-left: 1px solid #0002;
+}
+
+.window-options button i {
+    filter: drop-shadow(0px 0px 1px #0003);
 }
 
 .app-content {
@@ -172,7 +214,6 @@
 }
 
 .window-content {
-  background-color: #fff;
   padding: 0;
   overflow: auto;
 }
@@ -180,7 +221,7 @@
 .sticky-content-container {
   padding: 3%;
   background-image: linear-gradient(#ffdf9a, #ffd988);
-}
+}s
 
 .sticky-content {
   resize: none;
@@ -197,18 +238,22 @@
 }
 
 #dashboard {
-  position: relative;
+  position: absolute;
+  bottom: 0;
+  left: 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
   box-sizing: content-box;
   z-index: 999;
   width: 98%;
-  height: 4vh;
+  height: max(4vh, 42px);
   padding: 0% 1%;
-  background-image: linear-gradient(to right, #6473ff, #7262ff);
+background: #e884bd;
+background: linear-gradient(0deg, rgba(232, 132, 189, 0.8) 0%, rgba(232, 102, 156, 0.8) 23%, rgba(232, 81, 144, 0.8) 59%, rgba(250, 155, 195, 0.8) 64%, rgba(253, 178, 218, 0.8) 87%, rgba(255, 235, 255, 0.8) 100%);
   color: #fff;
-  box-shadow: 0 -1px 3px var(--shadow);
+  box-shadow: 0 -1px 1px var(--shadow);
+  backdrop-filter: blur(3px);
 }
 
 #dashboard-left-section {
@@ -216,6 +261,7 @@
   align-items: center;
   height: 100%;
   flex-grow: 1;
+  gap: 2vw;
 }
 
 #dashboard-start-container {
@@ -328,23 +374,50 @@
   font-weight: 400;
 }
 
-#dashboard-start-button {
+#dashboard-start-button-container {
+    position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 6%;
-  height: 100%;
-  width: 5vw;
+}
+
+#dashboard-start-button {
+  height: max(3vw, 50px);
+  width: max(3vw, 50px);
   cursor: pointer;
   user-select: none;
   transition: background-color 0.1s;
   text-align: center;
   padding: 0% 1%;
+  border-radius: 50%;
+  background: #87e5ff;
+    background: linear-gradient(0deg, rgba(135, 229, 255, 1) 0%, rgba(113, 186, 255, 1) 27%, rgba(64, 115, 255, 1) 91%);
+    transform: translateY(-10px);
+    isolation: isolate;
 }
 
-#dashboard-start-button i {
-  font-size: 1.3rem;
+#dashboard-start-button::after {
+    content: "";
+    width: 92%;
+    height: 92%;
+    position: absolute;
+    background-image: linear-gradient(#fff8, transparent 25%);
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
+
+#dashboard-start-button-icon {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background-image: url("/static/images/windows_vista_logo.png");
+    background-size: 60%;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+}
+
 
 #dashboard-start-button:hover {
   background-color: #3624d8;
@@ -352,6 +425,28 @@
 
 #dashboard-start-button.active {
   background-color: #3624d8;
+}
+
+#dashboard-start-button-shadow-container {
+    position: absolute;
+  height: max(3vw, 50px);
+  width: max(calc(3vw + 7px), 57px);
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    z-index: -1;
+    transform: translateX(-2.5px);
+}
+
+#dashboard-start-button-shadow {
+    width: max(calc(3vw + 5px), 55px);
+    height: max(calc(3vw + 5px), 55px);
+    background-image: linear-gradient(#0002, #0001);
+    mix-blend-mode: multiply;
+    border-radius: 50%;
+    transform: translateY(-12.5px);
+    box-sizing: border-box;
+    outline: 1px solid #fff3;
 }
 
 .dashboard-divider {
@@ -374,31 +469,42 @@
 }
 
 .dashboard-item-container {
-  flex: 0 1 20vw;
-  display: flex;
-  align-items: center;
-  height: 80%;
-  padding: 0% 1vw;
-  border-radius: 5px;
-  background-image: linear-gradient(#8aa6ff, #6d88ff);
-  box-shadow: 1px 1px 1px var(--shadow);
+    position: relative;
+	flex: 0 1 20vw;
+	display: flex;
+	align-items: center;
+	height: 95%;
+	border-radius: 2px;
+	background-image: linear-gradient(#fff6, transparent);
+	box-shadow: 0px 0px 1px #fff4;
+	/* background-color: #fff5; */
+	border: 1px solid #0002;
+    outline: 1px solid #fff3;
+    box-sizing: border-box;
+}
+
+.dashboard-item-container::after {
+    content: "";
+    width: calc(100% - 2px);
+    height: calc(100% - 2px);
+    border: 1px solid #fff3;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 2px;
 }
 
 .dashboard-item-container.active {
-  flex: 0 1 20vw;
-  display: flex;
-  align-items: center;
-  height: 80%;
-  font-weight: bold;
-  background-image: linear-gradient(#ff8aca, #ff6dbd);
-  padding: 0% 1vw;
 }
 
 .dashboard-item-text {
-  overflow: hidden;
+  overflow-x: hidden;
   text-overflow: ellipsis;
   max-height: 100%;
+    text-shadow: 0px 0px 10px #0006;
   --webkit-line-clamp: 1;
+  transform: translateX(25%);
 }
 
 #dashboard-right-section {
@@ -410,4 +516,6 @@
 #dashboard-datetime {
   text-align: center;
   user-select: none;
+  font-size: 0.8rem;
+  text-shadow: 0px 0px 2px #0003;
 }

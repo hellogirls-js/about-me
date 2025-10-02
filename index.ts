@@ -2,15 +2,15 @@ import express, { Express } from "express";
 import { rateLimit } from "express-rate-limit";
 import favicon from "serve-favicon";
 import dotenv from "dotenv";
-import mysql from "mysql";
+import mysql from "mysql2";
 import * as fs from "node:fs";
-import path = require("path");
+import path from "path";
 
-dotenv.config();
+dotenv.config({ path: path.resolve(__dirname, ".env.local") });
 
 const connection = mysql.createConnection({
-  host: process.env.IP_ADD,
-  port: '/var/run/mysqld/mysqld.sock' as any,
+  host: process.env.IP_ADD || "localhost",
+  port: Number(process.env.PORT) || 3306,
   user: process.env.MYSQL_USER,
   password: process.env.MYSQL_PASSWORD,
   database: process.env.MYSQL_DB_NAME
@@ -24,11 +24,11 @@ connection.connect(function (err) {
 });
 
 const app: Express = express();
-const port = process.env.PORT || 3001;
+const port = process.env.SERVER_PORT || 3001;
 
 const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000,
-  limit: 5,
+  windowMs: 1 * 60 * 1000,
+  limit: 200,
 })
 
 app.use(express.json());
@@ -66,7 +66,7 @@ app.post("/chat/send", (req, res) => {
       res.status(400).send("Missing fields for name or message");
     } else {
       // add to database
-      connection.query(`INSERT INTO chatbox_msg (name, message) VALUES ('${data.name}', '${data.msg}')`, function (err, result) {
+      connection.query(`INSERT INTO chatbox_msg (name, message) VALUES ('${mysql.escape(data.name)}', '${mysql.escape(data.msg)}')`, function (err, result) {
         if (err) res.status(400).send("Could not add message to the chatbox");
         res.redirect("/");
       });
@@ -78,7 +78,7 @@ app.post("/chat/send", (req, res) => {
 
 app.get("/chat/retrieve", (req, res) => {
   connection.query("SELECT * FROM chatbox_msg", function(err, result, fields) {
-    if (err) res.status(500).send("Could not retrieve chatbox messages");
+    if (err) res.status(500).send(`Could not retrieve chatbox messages: ${err.message}`);
     else res.send(result);
   });
 });

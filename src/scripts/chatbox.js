@@ -62,5 +62,7 @@ $("#msg-form").on("submit", function (e) {
 $(document).ready(function () {
   axios.get("/chat/retrieve").then(function (res) {
     getMessages(res.data);
+  }).catch(function (error) {
+      console.error("Could not retrieve chat messages", error)
   });
 });
